@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>權證挑選器</title>
+<meta name="description" content="用前一天收盤資料挑權證：差槓比、價內外、隱波穩定度">
+<link rel="icon" type="image/png" href="icon-64.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#c2410c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="權證挑選器">
+<link rel="stylesheet" href="style.css?v=202610211607">
+</head>
+<body>
+<header class="top">
+  <img src="icon-64.png" class="logo" alt="">
+  <div class="title">權證挑選器</div>
+  <div class="date" id="date">載入中…</div>
+</header>
+
+<main>
+  <section class="query">
+    <div class="search">
+      <input id="q" type="search" placeholder="股票代號或名稱，例如 2330、台積電" autocomplete="off" enterkeyhint="search">
+      <div id="sugg" class="sugg" hidden></div>
+    </div>
+    <div class="seg" role="group">
+      <button id="bC" class="call on" type="button">看漲・認購</button>
+      <button id="bP" class="put" type="button">看跌・認售</button>
+    </div>
+  </section>
+
+  <section id="und" class="und" hidden>
+    <div class="und-line">
+      <span id="undName" class="und-name"></span>
+      <span id="undPrice" class="und-price"></span>
+      <span id="undChg"></span>
+    </div>
+    <div id="counts" class="muted"></div>
+  </section>
+
+  <section id="bar" class="bar" hidden>
+    <label class="chk"><input type="checkbox" id="only" checked> 只顯示符合</label>
+    <select id="sort" aria-label="排序">
+      <option value="dl">差槓比 小→大</option>
+      <option value="lev">實質槓桿 大→小</option>
+      <option value="mny">價內 → 價外</option>
+      <option value="days">剩餘天數 多→少</option>
+      <option value="iva">賣價隱波 低→高</option>
+      <option value="vol">成交量 多→少</option>
+    </select>
+    <button id="btnFilter" type="button">篩選條件</button>
+    <button id="btnIssuer" type="button">發行商</button>
+  </section>
+
+  <section id="list"></section>
+  <div id="more"></div>
+
+  <section id="welcome" class="welcome">
+    <h2>怎麼用</h2>
+    <ol>
+      <li>輸入股票代號或名稱，從選單挑一檔。</li>
+      <li>看漲選<b class="c-call">認購</b>，看跌選<b class="c-put">認售</b>。</li>
+      <li>全部條件都通過的打 ✔ 排最前面；點一檔看逐項檢查結果和原因。</li>
+    </ol>
+    <h3>三個主要指標</h3>
+    <p><b>差槓比</b>＝價差比(%) ÷ 實質槓桿，越小代表一買一賣的成本相對槓桿越低。預設認購 0.30 以下、認售 0.50 以下。</p>
+    <p><b>價內外</b>：紅字價內、灰字價外。盡量挑價內或價平附近。</p>
+    <p><b>隱波穩定</b>：每天收盤記錄買價隱波，跟同一檔股票的其他權證比，看發行商有沒有偷偷調降。</p>
+    <p class="muted">資料是最近一個交易日的收盤買賣價，由電腦版開啟時自動更新上傳。收盤時造市報價可能比盤中寬，下單前請在券商軟體確認。</p>
+  </section>
+
+  <footer class="foot">依證交所、櫃買中心公開資料自動計算，僅供參考，不構成投資建議。</footer>
+</main>
+
+<div id="sheet" class="sheet" hidden>
+  <div class="sheet-bg" data-close></div>
+  <div class="sheet-panel" role="dialog" aria-modal="true">
+    <div class="sheet-head"><b id="sheetTitle"></b><button type="button" class="x" data-close aria-label="關閉">✕</button></div>
+    <div id="sheetBody" class="sheet-body"></div>
+  </div>
+</div>
+
+<script src="app.js?v=202610211607"></script>
+</body>
+</html>
